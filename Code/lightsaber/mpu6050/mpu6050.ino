@@ -45,7 +45,6 @@ void dmpDataReady() {
 }
 
 void setup() {
-
 	#if I2CDEV_IMPLEMENTATION == I2CDEV_ARDUINO_WIRE
 		Wire.begin();
 		TWBR = 24; // 400kHz I2C clock (200kHz if CPU is 8MHz)
@@ -54,16 +53,24 @@ void setup() {
 	#endif
 	Serial.begin(115200);
 	while (!Serial);
-	Serial.println(F("Initializing I2C devices..."));
+	
+	/*	 Initialize MPU	*/
+	Serial.println(F("Initializing MPU.."));
 	mpu.initialize();
 	Serial.println(F("Testing device connections..."));
-	Serial.println(mpu.testConnection() ? F("MPU6050 connection successful") : F("MPU6050 connection failed"));
+	Serial.println(mpu.testConnection() ? 
+		F("MPU6050 connection successful") : 
+		F("MPU6050 connection failed"));
 	Serial.println(F("Initializing DMP..."));
 	devStatus = mpu.dmpInitialize();
+	
+	/*	 Offsets	*/
 	mpu.setXGyroOffset(220);
 	mpu.setYGyroOffset(76);
 	mpu.setZGyroOffset(-85);
 	mpu.setZAccelOffset(1788-1330);
+	
+	
 	if (devStatus == 0) {
 		Serial.println(F("Enabling DMP..."));
 		mpu.setDMPEnabled(true);
