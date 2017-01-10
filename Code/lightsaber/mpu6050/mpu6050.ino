@@ -24,6 +24,9 @@ uint16_t ticker = 0ul;
 /*	 9, 10, 5, 6	*/
 enum {LED1 = 9, LED2, LED3 = 5, LED4, LED_BOARD = 13};
 
+/*	 MPU Acc value to trigger saber racket wooshing effect	*/
+#define MPU_ACC_TRIGGER 1500;
+
 // orientation/motion vars
 Quaternion q;           // [w, x, y, z]         quaternion container
 VectorInt16 aa;         // [x, y, z]            accel sensor measurements
@@ -126,8 +129,8 @@ void loop() {
 		mpu.dmpGetLinearAccelInWorld(&aaWorld, &aaReal, &q);
 		
 		/*	 Trigger if MPU unit is moved fast enough	*/
-		if((abs(aaWorld.x) > 1500 
-			|| abs(aaWorld.y) > 1500)){
+		if((abs(aaWorld.x) > MPU_ACC_TRIGGER 
+			|| abs(aaWorld.y) > MPU_ACC_TRIGGER)){
 				ledControl(255);
 				if(ticker % 50 == 0){
 					woosh();
