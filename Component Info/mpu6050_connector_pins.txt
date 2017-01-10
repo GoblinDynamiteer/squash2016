@@ -1,0 +1,21 @@
+
+MPU 6050 MODDED - CONNECTOR PINS
+
+--------------------------------------------------------------
+TOP:
+CHIP UPWARDS
+FROM LEFT:
+
+PIN			CABLE COLOR PIC		ARDUINO PIN
+1: GROUND		YELLOW			GND
+2: INTERRUPT		ORANGE			2
+3: SDA			WHITE			ANALOG 4				
+
+
+--------------------------------------------------------------
+BOTTOM
+CHIP DOWNWARDS
+
+PIN
+1: VIN 3.3V		RED			3.3V
+2: SCL			GREEN			ANALOG 5
