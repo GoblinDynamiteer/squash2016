@@ -131,7 +131,7 @@ void loop() {
 		if((abs(aaWorld.x) > 1500 
 			|| abs(aaWorld.y) > 1500)){
 				ledControl(255);
-				if(ticker % 100 == 0){
+				if(ticker % 50 == 0){
 					woosh();
 					Serial.print("X: ");
 					Serial.print(aaWorld.x);
@@ -140,7 +140,7 @@ void loop() {
 			}
 		}
 		else{
-			ledControl(100);
+			ledControl(0);
 		}
 		
 		if(ticker % 100 == 0){
