@@ -35,8 +35,6 @@ float ypr[3];           // [yaw, pitch, roll]   yaw/pitch/roll container and gra
 
 void woosh(){
 	Serial.print("WOOSH!\n");
-	analogWrite(LED1, 150);
-	analogWrite(LED1, 150);
 }
 void humm(){
 	Serial.print("HUMM!\n");
