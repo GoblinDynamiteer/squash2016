@@ -57,10 +57,6 @@ void setup() {
 	mpu.initialize();
 	Serial.println(F("Testing device connections..."));
 	Serial.println(mpu.testConnection() ? F("MPU6050 connection successful") : F("MPU6050 connection failed"));
-	Serial.println(F("\nSend any character to begin DMP programming and demo: "));
-	while (Serial.available() && Serial.read());
-	while (!Serial.available());
-	while (Serial.available() && Serial.read());
 	Serial.println(F("Initializing DMP..."));
 	devStatus = mpu.dmpInitialize();
 	mpu.setXGyroOffset(220);
