@@ -6,9 +6,7 @@
 #endif
 
 MPU6050 mpu;
-#define OUTPUT_WOOSH
 
-#define LED_PIN 13
 bool blinkState = false;
 
 // MPU control/status vars
@@ -22,6 +20,10 @@ uint8_t fifoBuffer[64]; // FIFO storage buffer
 /*	 For counting program cycles	*/
 uint16_t ticker = 0ul;
 
+/*	 Pins for LED output tests	*/
+/*	 9, 10, 5, 6	*/
+enum {LED1 = 9, LED2, LED3 = 5, LED4, LED_BOARD = 13};
+
 // orientation/motion vars
 Quaternion q;           // [w, x, y, z]         quaternion container
 VectorInt16 aa;         // [x, y, z]            accel sensor measurements
@@ -33,12 +35,21 @@ float ypr[3];           // [yaw, pitch, roll]   yaw/pitch/roll container and gra
 
 void woosh(){
 	Serial.print("WOOSH!\n");
+	analogWrite(LED1, 150);
+	analogWrite(LED1, 150);
 }
 void humm(){
 	Serial.print("HUMM!\n");
 }
-int wooshDelay = 0;
-int hummDelay = 300;
+
+	/*	 Set leds to brightness	*/
+void ledControl(int brightness){
+	analogWrite(LED1, brightness);
+	analogWrite(LED2, brightness);
+	analogWrite(LED3, brightness);
+	analogWrite(LED4, brightness);
+}
+
 volatile bool mpuInterrupt = false;
 void dmpDataReady() {
 	mpuInterrupt = true;
@@ -86,7 +97,13 @@ void setup() {
 		Serial.print(devStatus);
 		Serial.println(F(")"));
 	}
-	pinMode(LED_PIN, OUTPUT);
+	
+	/*	 LED Pins	*/
+	pinMode(LED1, OUTPUT);
+	pinMode(LED2, OUTPUT);
+	pinMode(LED3, OUTPUT);
+	pinMode(LED4, OUTPUT);
+	pinMode(LED_BOARD, OUTPUT);
 	}
 
 void loop() {
@@ -104,34 +121,37 @@ void loop() {
 		mpu.getFIFOBytes(fifoBuffer, packetSize);
 		fifoCount -= packetSize;
 		
-		#ifdef OUTPUT_WOOSH
-			mpu.dmpGetQuaternion(&q, fifoBuffer);
-			mpu.dmpGetAccel(&aa, fifoBuffer);
-			mpu.dmpGetGravity(&gravity, &q);
-			mpu.dmpGetLinearAccel(&aaReal, &aa, &gravity);
-			mpu.dmpGetLinearAccelInWorld(&aaWorld, &aaReal, &q);
-			if((abs(aaWorld.x) > 1500 || abs(aaWorld.y) > 1500) && !wooshDelay){
-				woosh();
-				Serial.print("X: ");
-				Serial.print(aaWorld.x);
-				Serial.print(" Y: ");
-				Serial.println(aaWorld.y);
-				wooshDelay = 50;
-			}
-			if(!hummDelay){
-				humm();
-				hummDelay = 50;
-			}
-			 delay(1);
-			if(wooshDelay > 0){
-				wooshDelay--;
-			}
-			hummDelay--;
-		#endif
+		mpu.dmpGetQuaternion(&q, fifoBuffer);
+		mpu.dmpGetAccel(&aa, fifoBuffer);
+		mpu.dmpGetGravity(&gravity, &q);
+		mpu.dmpGetLinearAccel(&aaReal, &aa, &gravity);
+		mpu.dmpGetLinearAccelInWorld(&aaWorld, &aaReal, &q);
 		
-		// blink LED to indicate activity
+		/*	 Trigger if MPU unit is moved fast enough	*/
+		if((abs(aaWorld.x) > 1500 
+			|| abs(aaWorld.y) > 1500)){
+				ledControl(255);
+				if(ticker % 100 == 0){
+					woosh();
+					Serial.print("X: ");
+					Serial.print(aaWorld.x);
+					Serial.print(" Y: ");
+					Serial.println(aaWorld.y);
+			}
+		}
+		else{
+			ledControl(100);
+		}
+		
+		if(ticker % 100 == 0){
+			humm();
+		}
+
+		ticker++;
+
+		/*	 Board LED, indicate activity	*/
 		blinkState = !blinkState;
-		digitalWrite(LED_PIN, blinkState);
+		digitalWrite(LED_BOARD, blinkState);
 	}
 }
 
