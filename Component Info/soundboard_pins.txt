@@ -1,0 +1,8 @@
+FÖR UART KOMMUNIKATION:
+
+UG - GND / JORD (UART / GPIO Select - Tie to ground & reset the board for UART Mode)
+VIN - VOLTAGE IN (3.3V - 5V)
+RX - RECIEVE (SERIAL IN -> To Soundboard - 3.3V Logic)
+TX - TRANSMIT (SERIAL OUT -> From Soundboard - 3-5V Logic)
+RST - RESET
+ACT - ACTIVITY PIN (Goes low when audio is playing)
