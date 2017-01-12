@@ -1,0 +1,21 @@
+
+ESP 8266 - CONNECTOR PINS
+
+--------------------------------------------------------------
+
+CHIP UPWARDS
+FROM LEFT ROW 1:
+
+PIN			
+1: GROUND
+2: GPIO
+3: GPIO
+4: RX
+
+FROM LEFT ROW 2:
+
+PIN
+1: TX
+2: CH_PD	3.3 V	
+3: RESET
+4: VCC		3.3 V
