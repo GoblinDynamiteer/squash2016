@@ -12,9 +12,10 @@ const int VIB_SENSOR_PIN = A0;
 int LEDBrightness = 10;
 #define LED_BRIGHTNESS_TRIGGER 255
 #define LED_BRIGHTNESS_HUM_MIN 10
-#define LED_BRIGHTNESS_HUM_MAX 50
+#define LED_BRIGHTNESS_HUM_MAX 20
 
 bool humRise = 0;
+int white = 0;
 
 Adafruit_DotStar strip = Adafruit_DotStar(NUMPIXELS, DATAPIN, CLOCKPIN, DOTSTAR_BRG);
 
@@ -29,6 +30,16 @@ void setup(){
 }
 
 void loop(){
+  for(int i = 0; i < 54; i++){
+    strip.setPixelColor(i, white, 255, white);
+  }
+  if(white > 0){
+    white--;
+  }
+  else{
+    white = 0;
+  }
+
   if(LEDBrightness > LED_BRIGHTNESS_HUM_MAX){
     LEDBrightness--;
   }
@@ -50,12 +61,12 @@ void loop(){
   float vibrationData = (float)analogRead(VIB_SENSOR_PIN) / 1023.0 * 200.0;
   if(vibrationData > VIBRATION_TRIGGER){
     Serial.println("Triggar!");
+    white = 255;
     humRise = 0;
     LEDBrightness = LED_BRIGHTNESS_TRIGGER;
     strip.setBrightness(LEDBrightness);
     for(int i = 0; i < 54; i++){
-      /*  ?? RED ??   */
-      strip.setPixelColor(i, 0, 255, 0);
+      strip.setPixelColor(i, white, 255, white);
     }
     strip.show();
     delay(200);
