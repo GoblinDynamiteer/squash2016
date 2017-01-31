@@ -41,7 +41,7 @@ void setup(){
 }
 
 void loop(){
-  for(int i = 0; i < 54; i++){
+  for(int i = 0; i < NUMPIXELS; i++){
     strip.setPixelColor(i, ledGreen, ledRed, ledBlue);
   }
 
@@ -54,9 +54,11 @@ void loop(){
   else{
     if(humRise){
       LEDBrightness++;
+      //delay(3);
     }
     else{
       LEDBrightness--;
+      //delay(3);
     }
   }
   if(LEDBrightness == LED_BRIGHTNESS_HUM_MIN ||
@@ -68,16 +70,10 @@ void loop(){
   float vibrationData = (float)analogRead(VIB_SENSOR_PIN) / 1023.0 * 200.0;
   if(vibrationData > VIBRATION_TRIGGER){
     Serial.println("Triggar!");
-    setLedWhite();
-    humRise = 0;
-    LEDBrightness = LED_BRIGHTNESS_MAX;
-    strip.setBrightness(LEDBrightness);
-    for(int i = 0; i < 54; i++){
-      strip.setPixelColor(i, ledGreen, ledRed, ledBlue);
-    }
-    strip.show();
-    delay(200);
+    clashLed();
+    //delay(200);
   }
+  strip.show();
 }
 
 /*   Set led strip to white */
@@ -99,6 +95,18 @@ void fadeLedGreen(void){
   }
 }
 
+void clashLed(void){
+  setLedWhite();
+  humRise = 0;
+  LEDBrightness = LED_BRIGHTNESS_MAX;
+  strip.setBrightness(LEDBrightness);
+  for(int i = 0; i < NUMPIXELS; i++){
+    strip.setPixelColor(i, ledGreen, ledRed, ledBlue);
+  }
+  strip.show();
+}
+
+/*  Led animation at startup   */
 void startUpLed(void){
   ledGreen = ledBlue = 0;
   ledRed = LED_BRIGHTNESS_MAX;
@@ -108,6 +116,6 @@ void startUpLed(void){
     strip.setPixelColor(start++, ledGreen, ledRed, ledBlue);
     strip.setPixelColor(end--, ledGreen, ledRed, ledBlue);
     strip.show();
-    delay(100);
+    delay(20);
   }
 }
