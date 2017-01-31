@@ -3,10 +3,10 @@
 
 ---
 
-<h6>
+
 **Elevprojekt för Squash-SM i Linköping 2017**   
 *Mjukvaruutvecklare inbyggda system*  
-</h6>
+
 *Mölk Utbildning, Mjärdevi - Linköping*  
 
 
