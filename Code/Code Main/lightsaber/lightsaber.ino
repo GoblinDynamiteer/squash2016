@@ -1,26 +1,33 @@
 
-//#include <SoftwareSerial.h>
+#include <SoftwareSerial.h>
 #include <Adafruit_DotStar.h>
+//#include <Adafruit_Soundboard.h>
 
+/*   Led-strip   */
 #define NUMPIXELS 54
 #define DATAPIN 4
 #define CLOCKPIN 5
-#define LED_PIN 3
 #define MAX_STR 250
-#define VIBRATION_TRIGGER 10
-const int VIB_SENSOR_PIN = A0;
-
 #define LED_BRIGHTNESS_MAX 255
 #define LED_BRIGHTNESS_HUM_MIN 10
 #define LED_BRIGHTNESS_HUM_MAX 20
 
+/*  Adafruit Audio FX pins  */
+#define SFX_TX 5
+#define SFX_RX 6
+#define SFX_RST 4
+
+/*   Vibration sensor  */
+#define VIBRATION_TRIGGER 10
+const int VIB_SENSOR_PIN = A0;
+
 bool humRise = 0;
 bool on = 0;
-
 short ledGreen = 0;
 short ledRed = 0;
 short ledBlue = 0;
 short LEDBrightness = 10;
+
 
 Adafruit_DotStar strip = Adafruit_DotStar(
     NUMPIXELS,
@@ -29,11 +36,23 @@ Adafruit_DotStar strip = Adafruit_DotStar(
     DOTSTAR_BRG
   );
 
+/*   Software serial communication with Soundboard.  */
+//SoftwareSerial ss = SoftwareSerial(SFX_TX, SFX_RX);
+// Adafruit_Soundboard sfx = Adafruit_Soundboard(
+//   &ss,
+//   NULL,
+//   SFX_RST
+// );
+
+
 void setup(){
-  //Serial.begin(115200);
   #if defined(__AVR_ATtiny85__) && (F_CPU == 16000000L)
     clock_prescale_set(clock_div_1);
   #endif
+
+  /*    For communication with soundboard */
+  //ss.begin(9600);
+  //sfx.reset();
 
   strip.begin();
   strip.show();
@@ -54,11 +73,9 @@ void loop(){
   else{
     if(humRise){
       LEDBrightness++;
-      //delay(3);
     }
     else{
       LEDBrightness--;
-      //delay(3);
     }
   }
   if(LEDBrightness == LED_BRIGHTNESS_HUM_MIN ||
@@ -69,9 +86,10 @@ void loop(){
   strip.show();
   float vibrationData = (float)analogRead(VIB_SENSOR_PIN) / 1023.0 * 200.0;
   if(vibrationData > VIBRATION_TRIGGER){
-    Serial.println("Triggar!");
+    //Serial.println("Triggar!");
     clashLed();
-    //delay(200);
+    //sfx.playTrack(2);
+    delay(200);
   }
   strip.show();
 }
