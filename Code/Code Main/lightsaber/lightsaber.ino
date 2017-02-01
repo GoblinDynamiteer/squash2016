@@ -1,7 +1,7 @@
 
 #include <SoftwareSerial.h>
 #include <Adafruit_DotStar.h>
-//#include <Adafruit_Soundboard.h>
+#include <Adafruit_Soundboard.h>
 
 /*   Led-strip   */
 #define NUMPIXELS 54
@@ -13,9 +13,9 @@
 #define LED_BRIGHTNESS_HUM_MAX 20
 
 /*  Adafruit Audio FX pins  */
-#define SFX_TX 5
-#define SFX_RX 6
-#define SFX_RST 4
+#define SFX_TX 7
+#define SFX_RX 8
+#define SFX_RST 9
 
 /*   Vibration sensor  */
 #define VIBRATION_TRIGGER 10
@@ -28,7 +28,7 @@ short ledRed = 0;
 short ledBlue = 0;
 short LEDBrightness = 10;
 
-
+/*   Init LED-strip as "strip"  */
 Adafruit_DotStar strip = Adafruit_DotStar(
     NUMPIXELS,
     DATAPIN,
@@ -37,13 +37,14 @@ Adafruit_DotStar strip = Adafruit_DotStar(
   );
 
 /*   Software serial communication with Soundboard.  */
-//SoftwareSerial ss = SoftwareSerial(SFX_TX, SFX_RX);
-// Adafruit_Soundboard sfx = Adafruit_Soundboard(
-//   &ss,
-//   NULL,
-//   SFX_RST
-// );
+SoftwareSerial ss = SoftwareSerial(SFX_TX, SFX_RX);
 
+/* Init soundboard as "sfx"  */
+Adafruit_Soundboard sfx = Adafruit_Soundboard(
+  &ss,
+  NULL,
+  SFX_RST
+);
 
 void setup(){
   #if defined(__AVR_ATtiny85__) && (F_CPU == 16000000L)
@@ -51,21 +52,29 @@ void setup(){
   #endif
 
   /*    For communication with soundboard */
-  //ss.begin(9600);
-  //sfx.reset();
+  ss.begin(9600);
+  sfx.reset();
 
+  /* Start Led-strip  */
   strip.begin();
-  strip.show();
+  //strip.show();
   startUpLed();
 }
 
 void loop(){
+  /*  Set color of LED-strip   */
   for(int i = 0; i < NUMPIXELS; i++){
     strip.setPixelColor(i, ledGreen, ledRed, ledBlue);
   }
 
-  fadeLedBlue();
-  fadeLedGreen();
+  /*   Fade blue and green color until zero  */
+  if(ledBlue){
+    fadeLedBlue(2);
+  }
+  if(ledGreen){
+    fadeLedGreen(2);
+  }
+
 
   if(LEDBrightness > LED_BRIGHTNESS_HUM_MAX){
     LEDBrightness--;
@@ -83,15 +92,23 @@ void loop(){
     humRise = !humRise;
   }
   strip.setBrightness(LEDBrightness);
-  strip.show();
-  float vibrationData = (float)analogRead(VIB_SENSOR_PIN) / 1023.0 * 200.0;
-  if(vibrationData > VIBRATION_TRIGGER){
-    //Serial.println("Triggar!");
+  //strip.show();
+
+  if(triggerVibration){
     clashLed();
-    //sfx.playTrack(2);
-    delay(200);
+    sfx.playTrack(2);
+    //delay(200);
   }
+
   strip.show();
+}
+
+/*   Check vibration sensor trigger treshold  */
+bool triggerVibration(void){
+  /*   Get data from vibration sensor  */
+  float vibrationData =
+    (float)analogRead(VIB_SENSOR_PIN) / 1023.0 * 200.0;
+  return (vibrationData > VIBRATION_TRIGGER);
 }
 
 /*   Set led strip to white */
@@ -100,19 +117,36 @@ void setLedWhite(void){
 }
 
 /*    Decreases Blue color */
-void fadeLedBlue(void){
-  if(ledBlue){
-    ledBlue--;
+void fadeLedBlue(short fadeSpeed){
+  if(ledBlue && (ledBlue - fadespeed > 0)){
+    ledBlue =- fadeSpeed;
+  }
+  else{
+    ledBlue = 0
   }
 }
 
 /*    Decreases Green color */
-void fadeLedGreen(void){
-  if(ledGreen){
-    ledGreen--;
+void fadeLedGreen(short fadeSpeed){
+  if(ledGreen && (ledGreen - fadespeed > 0)){
+    ledGreen =- fadeSpeed;
+  }
+  else{
+    ledGreen = 0
   }
 }
 
+/*    Decreases Red color -- Currently unused */
+void fadeLedRed(short fadeSpeed){
+  if(ledRed && (ledRed - fadespeed > 0)){
+    ledRed =- fadeSpeed;
+  }
+  else{
+    ledRed = 0
+  }
+}
+
+/* Set LED-strip to white at impact  */
 void clashLed(void){
   setLedWhite();
   humRise = 0;
