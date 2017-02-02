@@ -24,7 +24,7 @@ const int VIB_SENSOR_PIN = A0;
 bool humRise = 0;
 bool on = 0;
 short ledGreen = 0;
-short ledRed = 0;
+short ledRed = 255;
 short ledBlue = 0;
 short LEDBrightness = 10;
 
@@ -46,6 +46,13 @@ Adafruit_Soundboard sfx = Adafruit_Soundboard(
   SFX_RST
 );
 
+void fadeLedGreen(short fadeSpeed);
+void fadeRedGreen(short fadeSpeed);
+void fadeBlueGreen(short fadeSpeed);
+void setLedWhite(void);
+void clashLed(void);
+void startUpLed(void);
+
 void setup(){
   #if defined(__AVR_ATtiny85__) && (F_CPU == 16000000L)
     clock_prescale_set(clock_div_1);
@@ -65,40 +72,38 @@ void setup(){
 }
 
 void loop(){
+  ledGreen = ledGreen > 0 ? ledGreen - 1 : 0;
+  ledBlue = ledBlue > 0 ? ledBlue - 1 : 0;
+  //ledRed = ledRed > 0 ? ledRed - 1 : 0;
+
   /*  Set color of LED-strip   */
   for(int i = 0; i < NUMPIXELS; i++){
     strip.setPixelColor(i, ledGreen, ledRed, ledBlue);
   }
 
-  /*   Fade blue and green color until zero  */
-  if(ledBlue){
-    fadeLedBlue(2);
-  }
-  if(ledGreen){
-    fadeLedGreen(2);
-  }
-
   if(LEDBrightness > LED_BRIGHTNESS_HUM_MAX){
-    LEDBrightness -= 2;
+    LEDBrightness -= 1;
   }
   else{
-    if(humRise){
+    if(humRise == 1){
       LEDBrightness += 1;
+      Serial.println("Brightn++");
     }
     else{
+      Serial.println("Brightn--");
       LEDBrightness -= 1;
     }
   }
-  if(LEDBrightness < LED_BRIGHTNESS_HUM_MIN ||
-    LEDBrightness > LED_BRIGHTNESS_HUM_MAX){
+  if((LEDBrightness < LED_BRIGHTNESS_HUM_MIN ||
+    LEDBrightness > LED_BRIGHTNESS_HUM_MAX)){
     humRise = !humRise;
   }
   strip.setBrightness(LEDBrightness);
   strip.show();
 
   float vibrationData =
-    (float)analogRead(VIB_SENSOR_PIN) / 1023.0 * 200.0;
-  Serial.print("Vid Data: ");
+    (float)analogRead(VIB_SENSOR_PIN) * 0.2;
+  Serial.print("Vibration Data: ");
   Serial.println(vibrationData);
 
   if(vibrationData > VIBRATION_TRIGGER){
@@ -112,36 +117,6 @@ void loop(){
 /*   Set led strip to white */
 void setLedWhite(void){
   ledRed = ledBlue = ledGreen = 255;
-}
-
-/*    Decreases Blue color */
-void fadeLedBlue(short fadeSpeed){
-  if(ledBlue && (ledBlue - fadeSpeed > 0)){
-    ledBlue =- fadeSpeed;
-  }
-  else{
-    ledBlue = 0;
-  }
-}
-
-/*    Decreases Green color */
-void fadeLedGreen(short fadeSpeed){
-  if(ledGreen && (ledGreen - fadeSpeed > 0)){
-    ledGreen =- fadeSpeed;
-  }
-  else{
-    ledGreen = 0;
-  }
-}
-
-/*    Decreases Red color -- Currently unused */
-void fadeLedRed(short fadeSpeed){
-  if(ledRed && (ledRed - fadeSpeed > 0)){
-    ledRed =- fadeSpeed;
-  }
-  else{
-    ledRed = 0;
-  }
 }
 
 /* Set LED-strip to white at impact  */
