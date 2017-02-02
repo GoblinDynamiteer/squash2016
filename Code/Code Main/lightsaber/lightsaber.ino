@@ -55,6 +55,9 @@ void setup(){
   ss.begin(9600);
   sfx.reset();
 
+  /*   For debug  */
+  Serial.begin(115200);
+
   /* Start Led-strip  */
   strip.begin();
   //strip.show();
@@ -75,40 +78,35 @@ void loop(){
     fadeLedGreen(2);
   }
 
-
   if(LEDBrightness > LED_BRIGHTNESS_HUM_MAX){
-    LEDBrightness--;
+    LEDBrightness -= 2;
   }
   else{
     if(humRise){
-      LEDBrightness++;
+      LEDBrightness += 1;
     }
     else{
-      LEDBrightness--;
+      LEDBrightness -= 1;
     }
   }
-  if(LEDBrightness == LED_BRIGHTNESS_HUM_MIN ||
-    LEDBrightness == LED_BRIGHTNESS_HUM_MAX){
+  if(LEDBrightness < LED_BRIGHTNESS_HUM_MIN ||
+    LEDBrightness > LED_BRIGHTNESS_HUM_MAX){
     humRise = !humRise;
   }
   strip.setBrightness(LEDBrightness);
-  //strip.show();
+  strip.show();
 
-  if(triggerVibration){
+  float vibrationData =
+    (float)analogRead(VIB_SENSOR_PIN) / 1023.0 * 200.0;
+  Serial.print("Vid Data: ");
+  Serial.println(vibrationData);
+
+  if(vibrationData > VIBRATION_TRIGGER){
+    Serial.println("Trigg!");
     clashLed();
     sfx.playTrack(2);
     //delay(200);
   }
-
-  strip.show();
-}
-
-/*   Check vibration sensor trigger treshold  */
-bool triggerVibration(void){
-  /*   Get data from vibration sensor  */
-  float vibrationData =
-    (float)analogRead(VIB_SENSOR_PIN) / 1023.0 * 200.0;
-  return (vibrationData > VIBRATION_TRIGGER);
 }
 
 /*   Set led strip to white */
@@ -118,31 +116,31 @@ void setLedWhite(void){
 
 /*    Decreases Blue color */
 void fadeLedBlue(short fadeSpeed){
-  if(ledBlue && (ledBlue - fadespeed > 0)){
+  if(ledBlue && (ledBlue - fadeSpeed > 0)){
     ledBlue =- fadeSpeed;
   }
   else{
-    ledBlue = 0
+    ledBlue = 0;
   }
 }
 
 /*    Decreases Green color */
 void fadeLedGreen(short fadeSpeed){
-  if(ledGreen && (ledGreen - fadespeed > 0)){
+  if(ledGreen && (ledGreen - fadeSpeed > 0)){
     ledGreen =- fadeSpeed;
   }
   else{
-    ledGreen = 0
+    ledGreen = 0;
   }
 }
 
 /*    Decreases Red color -- Currently unused */
 void fadeLedRed(short fadeSpeed){
-  if(ledRed && (ledRed - fadespeed > 0)){
+  if(ledRed && (ledRed - fadeSpeed > 0)){
     ledRed =- fadeSpeed;
   }
   else{
-    ledRed = 0
+    ledRed = 0;
   }
 }
 
