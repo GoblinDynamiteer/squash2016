@@ -112,6 +112,9 @@ void loop(){
     sfx.playTrack(2);
     //delay(200);
   }
+  /*  Do something smart to loop hum sound: */
+  /*  Modulus of ticker?   */
+  //sfx.playTrack(1);
 }
 
 /*   Set led strip to white */
