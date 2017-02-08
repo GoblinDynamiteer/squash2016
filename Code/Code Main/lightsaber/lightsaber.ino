@@ -13,8 +13,8 @@
 #define LED_BRIGHTNESS_HUM_MAX 20
 
 /*  Adafruit Audio FX pins  */
-#define SFX_TX 7
-#define SFX_RX 8
+#define SFX_TX 8
+#define SFX_RX 7
 #define SFX_RST 9
 
 /*   Vibration sensor  */
