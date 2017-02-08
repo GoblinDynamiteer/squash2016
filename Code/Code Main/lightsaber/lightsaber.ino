@@ -87,10 +87,10 @@ void loop(){
   else{
     if(humRise == 1){
       LEDBrightness += 1;
-      Serial.println("Brightn++");
+      //erial.println("Brightn++");
     }
     else{
-      Serial.println("Brightn--");
+      //Serial.println("Brightn--");
       LEDBrightness -= 1;
     }
   }
@@ -103,11 +103,11 @@ void loop(){
 
   float vibrationData =
     (float)analogRead(VIB_SENSOR_PIN) * 0.2;
-  Serial.print("Vibration Data: ");
-  Serial.println(vibrationData);
+  //Serial.print("Vibration Data: ");
+  //Serial.println(vibrationData);
 
   if(vibrationData > VIBRATION_TRIGGER){
-    Serial.println("Trigg!");
+    //Serial.println("Trigg!");
     clashLed();
     sfx.playTrack(2);
     //delay(200);
@@ -116,6 +116,7 @@ void loop(){
 
 /*   Set led strip to white */
 void setLedWhite(void){
+  /*  RGB at max values yields white color   */
   ledRed = ledBlue = ledGreen = 255;
 }
 
@@ -131,7 +132,7 @@ void clashLed(void){
   strip.show();
 }
 
-/*  Led animation at startup   */
+/*  LED-strip animation at startup   */
 void startUpLed(void){
   ledGreen = ledBlue = 0;
   ledRed = LED_BRIGHTNESS_MAX;
