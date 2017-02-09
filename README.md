@@ -61,3 +61,6 @@ Batterier av typen 18650, stulna från ett gammalt laptop-batteri.
 
 Lödning av vibrationssensor  
 ![Smokez](https://raw.githubusercontent.com/GoblinDynamiteer/squash2016/master/Documentation/Photoshop/soldering.png)
+
+Alla lödningar klara  
+![Pilljobb](https://raw.githubusercontent.com/GoblinDynamiteer/squash2016/master/Documentation/Photoshop/soldering2.png)
