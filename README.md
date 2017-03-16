@@ -30,17 +30,24 @@ En ljussabel/lasersvärd (eng. Lightsaber) är ett närstridsvapen från det kä
 - Trådlös kommunikation för uppspelning av ljud med externa högtalare. Wifi/Bluetooth.
 - Gyro/Accelerationssensor för uppspelning av modiferat ljud vid rörelse av racket.
 
+*Projektslut 2017-03-17:*
+- Ljudeffekter valdes att ej användas.
+- Endast ett racket byggdes, pga förstörd hårdvara vid lödning
+- Ett dutt-räkningsspel byggdes, utöver "lightsaber"-läget.
+- En strömbrytare implementerades
+
 ---
 
-Nuvarande ingående delar:
+Ingående delar:
 - Arduino NANO
-- Adafruit Audio FX Sound Board
-- Adafruit Mono 2.5W Class D Audio Amplifier
+- ~~Adafruit Audio FX Sound Board~~
+- ~~Adafruit Mono 2.5W Class D Audio Amplifier~~
 - Piezo Vibration Sensor
 - Resistor 1 MegaOhm
-- Högtalare 8 ohm
+- ~~ Högtalare 8 ohm ~~
 - DotStar APA102 Digital LED Strip
 - 2x Batterier LiPo 18650
+- ON/OFF-knapp
 
 
 ---
