@@ -9,6 +9,7 @@
       BLUE: 	100 + Pixel Position
       YELLOW: 150 + Pixel Position
       PURPLE: 200 + Pixel Position
+      CYAN:   250 + Pixel Position
 
       White pixels are shown at every 10th pixel to help with count!
 
@@ -29,7 +30,7 @@
 
 /*   Led-strip   */
 #define NUMPIXELS 50
-#define NUMCOLORS 6
+#define NUMCOLORS 7
 #define DATAPIN 4
 #define CLOCKPIN 5
 #define LED_MAX_STR 250
@@ -42,7 +43,7 @@
 const int VIB_SENSOR_PIN = A0;
 
 /*   Delay between hit triggers  */
-#define HIT_DELAY 120
+#define HIT_DELAY 100
 
 /*   "Game" works for 60 seconds  */
 #define PLAY_TIME 60000
@@ -54,11 +55,11 @@ int hits = 0;
 /*   Predefined colors  */
 uint32_t ledColor[NUMCOLORS] = {
   0x00FF00, 0x0000FF, 0xFF0000, 0xA5FF00,
-  0x00FFFF, 0xCCFFCC
+  0x00FFFF, 0xFF00FF, 0xCCFFCC
 };
 
 /*  Indexes for ledColor array   */
-enum{RED, BLUE, GREEN, YELLOW, PURPLE, WHITE};
+enum{RED, BLUE, GREEN, YELLOW, PURPLE, CYAN, WHITE};
 
 /*  Timers   */
 unsigned long timer = 0;
@@ -108,6 +109,8 @@ void setLEDCount(int hits){
       setLEDs(hits - (NUMPIXELS * 3), ledColor[YELLOW]);
     if(hits > (NUMPIXELS * 4))
       setLEDs(hits - (NUMPIXELS * 4), ledColor[PURPLE]);
+    if(hits > (NUMPIXELS * 5))
+      setLEDs(hits - (NUMPIXELS * 5), ledColor[CYAN]);
 }
 
 void setup(){
@@ -147,6 +150,10 @@ void setScore(void){
   strip.clear();
   int position = 0;
   int score = 0;
+  if(hits > (NUMPIXELS * 5)){
+    position = hits - (NUMPIXELS * 5);
+    setLEDs(position, ledColor[CYAN]);
+  }
   if(hits > (NUMPIXELS * 4)){
     position = hits - (NUMPIXELS * 4);
     setLEDs(position, ledColor[PURPLE]);
