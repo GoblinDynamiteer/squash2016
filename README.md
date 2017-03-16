@@ -1,5 +1,5 @@
 #SQUASH SM 2017  
-#LIGHTSABER
+#LIGHTSABER  
 
 ---
 
@@ -36,6 +36,11 @@ En ljussabel/lasersvärd (eng. Lightsaber) är ett närstridsvapen från det kä
 - Ett dutt-räkningsspel byggdes, utöver "lightsaber"-läget.
 - En strömbrytare implementerades
 
+*Erfarenheter:*
+- Lödning och hårdvaru-arbete
+- ICSP-programmering av Arduino-kort med AVRDUDESS GUI
+- Enklare kodning
+
 ---
 
 Ingående delar:
@@ -44,7 +49,7 @@ Ingående delar:
 - ~~Adafruit Mono 2.5W Class D Audio Amplifier~~
 - Piezo Vibration Sensor
 - Resistor 1 MegaOhm
-- ~~ Högtalare 8 ohm ~~
+- ~~Högtalare 8 ohm~~
 - DotStar APA102 Digital LED Strip
 - 2x Batterier LiPo 18650
 - ON/OFF-knapp
@@ -71,3 +76,15 @@ Lödning av vibrationssensor
 
 Alla lödningar klara  
 ![Pilljobb](https://raw.githubusercontent.com/GoblinDynamiteer/squash2016/master/Documentation/Photoshop/soldering2.png)
+
+Jordkablar
+![Earth](https://raw.githubusercontent.com/GoblinDynamiteer/squash2016/master/Documentation/Photoshop/cable_soldering.png)
+
+Batterianslutning i handtaget
+![PowerConn](https://raw.githubusercontent.com/GoblinDynamiteer/squash2016/master/Documentation/Photoshop/battery_connectors.png)
+
+Inbyggt system
+![IS2016](https://raw.githubusercontent.com/GoblinDynamiteer/squash2016/master/Documentation/Photoshop/mounted_hardware.png)
+
+ISCP programming
+![icp](https://raw.githubusercontent.com/GoblinDynamiteer/squash2016/master/Documentation/Photoshop/iscp.png)
