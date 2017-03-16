@@ -5,6 +5,7 @@
 
 /*   Led-strip   */
 #define NUMPIXELS 50
+#define NUMCOLORS 5
 #define DATAPIN 4
 #define CLOCKPIN 5
 #define LED_MAX_STR 250
@@ -17,18 +18,24 @@
 const int VIB_SENSOR_PIN = A0;
 
 /*   Delay between hit triggers  */
-#define HIT_DELAY 200
+#define HIT_DELAY 100
 
 /*   "Game" works for 60 seconds  */
 #define PLAY_TIME 60000
 
-bool idle = 1;
+/*  Counts hits on racket   */
 int hits = 0;
-short LEDBrightness = 250;
 
-//GRB - Starts at RED
-uint32_t ledColor = 0x00FF00;
+/*   Predefined colors  */
+uint32_t ledColor[NUMCOLORS] = {
+  0x00FF00, 0x0000FF, 0xFF0000, 0xA5FF00,
+  0x00FFFF
+};
 
+/*  Indexes for ledColor array   */
+enum{RED, BLUE, GREEN, YELLOW, PURPLE};
+
+/*  Timers   */
 unsigned long timer = 0;
 unsigned long startTime = 0;
 
@@ -41,19 +48,21 @@ Adafruit_DotStar strip = Adafruit_DotStar(
     DOTSTAR_BRG
   );
 
-void startUpLed(void);
+void idleMode(void);
 void setLEDsOff(int count);
 bool sensorTrigger(void);
 bool checkHitDelay(void);
 
-void setLEDs(int count){
+/*  Sets pixel colors  */
+void setLEDs(int count, uint32_t color){
     setLEDsOff(count);
     strip.setBrightness(LED_BRIGHTNESS_MAX);
     for(int i = 0; i < count && i < NUMPIXELS; i++){
-        strip.setPixelColor(i, ledColor);
+        strip.setPixelColor(i, color);
     }
 }
 
+/*   Turn off pixels  */
 void setLEDsOff(int count){
     strip.setBrightness(0);
     for(int i = 0; i < count && i < NUMPIXELS; i++){
@@ -61,60 +70,80 @@ void setLEDsOff(int count){
     }
 }
 
+/*   Set LEDs to indicate hits  */
 void setLEDCount(int hits){
-    if(hits > 0){
-      ledColor = 0xFF0000; //GREEN
-      setLEDs(hits);
-    }
-    if(hits > NUMPIXELS){
-      ledColor = 0x0000FF; //BLUE
-      setLEDs(hits - NUMPIXELS);
-    }
-    if(hits > (NUMPIXELS * 2)){
-      ledColor = 0x00FF00; //RED
-      setLEDs(hits - (NUMPIXELS * 2));
-    }
-    if(hits > (NUMPIXELS * 3)){
-      ledColor = 0xA5FF00; //ORANGE rgb(255,165,0) 	#FFA500
-      setLEDs(hits - (NUMPIXELS * 3));
-    }
+    if(hits > 0)
+      setLEDs(hits, ledColor[GREEN]);
+    if(hits > NUMPIXELS)
+      setLEDs(hits - NUMPIXELS, ledColor[RED]);
+    if(hits > (NUMPIXELS * 2))
+      setLEDs(hits - (NUMPIXELS * 2), ledColor[BLUE]);
+    if(hits > (NUMPIXELS * 3))
+      setLEDs(hits - (NUMPIXELS * 3), ledColor[YELLOW]);
+    if(hits > (NUMPIXELS * 4))
+      setLEDs(hits - (NUMPIXELS * 4), ledColor[PURPLE]);
 }
 
 void setup(){
   /* Start Led-strip  */
   strip.begin();
-  startUpLed();
+  /*  Start idle mode, ends if hit is detectled   */
+  idleMode();
+  /*  Turn off all LEDs   */
+  setLEDs(NUMPIXELS, 0x000000);
+  strip.show();
+  /*   Begin hit counter and timers  */
+  setLEDCount(++hits);
+  strip.show();
+  timer = millis();
+  startTime = millis();
 }
-
-
 
 void loop(){
   /*   Vibration sensor detection    */
   if(sensorTrigger() == 1 && checkHitDelay() == 1){
-    setLEDCount(hits++);
+    setLEDCount(++hits);
     strip.show();
     timer = millis();
+  }
+  /*   Game over, count pixels    */
+  if(millis() - startTime > PLAY_TIME){
+    /*  Infinite loop - restart racket to reset   */
+    while(1){
+      delay(1000);
+    }
   }
 }
 
 /*  LED-strip animation at startup   */
-void startUpLed(void){
-  short start = 0;
-  short end = NUMPIXELS;
-  while(start <= end){
-    strip.setPixelColor(start++, ledColor);
-    strip.setPixelColor(end--, ledColor);
-    strip.show();
-    delay(20);
+void idleMode(void){
+  int cIndex = 0;
+  while(1){
+    if(++cIndex == NUMCOLORS){
+      cIndex = 0;
+    }
+    uint32_t color = ledColor[cIndex];
+    for(int i = 0; i < NUMPIXELS; i++){
+      strip.setPixelColor(i, color);
+      strip.show();
+      timer = millis();
+      while(millis() - timer < 30){
+        if(sensorTrigger() == 1){
+          return;
+        }
+      }
+    }
   }
 }
 
+/*  Detects sensor trigger treshold   */
 bool sensorTrigger(void){
   float vibrationData =
     (float)analogRead(VIB_SENSOR_PIN) * 0.2;
   return (vibrationData > VIBRATION_TRIGGER);
 }
 
+/*   Checks delay between hits  */
 bool checkHitDelay(void){
   unsigned long offset = millis() - timer;
   return (offset > HIT_DELAY);
