@@ -154,7 +154,7 @@ void setScore(void){
     position = hits - (NUMPIXELS * 5);
     setLEDs(position, ledColor[CYAN]);
   }
-  if(hits > (NUMPIXELS * 4)){
+  else if(hits > (NUMPIXELS * 4)){
     position = hits - (NUMPIXELS * 4);
     setLEDs(position, ledColor[PURPLE]);
   }
