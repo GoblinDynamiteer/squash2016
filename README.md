@@ -86,5 +86,5 @@ Batterianslutning i handtaget
 Inbyggt system
 ![IS2016](https://raw.githubusercontent.com/GoblinDynamiteer/squash2016/master/Documentation/Photoshop/mounted_hardware.png)
 
-ISCP programming
-![icp](https://raw.githubusercontent.com/GoblinDynamiteer/squash2016/master/Documentation/Photoshop/iscp.png)
+ICSP programming
+![icp](https://raw.githubusercontent.com/GoblinDynamiteer/squash2016/master/Documentation/Photoshop/icsp.png)
