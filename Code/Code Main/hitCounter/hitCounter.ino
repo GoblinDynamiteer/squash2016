@@ -34,19 +34,39 @@ Adafruit_DotStar strip = Adafruit_DotStar(
 void startUpLed(void);
 
 void setLEDs(int count){
-    strip.setBrightness(LEDBrightness);
+    strip.setBrightness(LED_BRIGHTNESS_MAX);
     for(int i = 0; i < count; i++){
         strip.setPixelColor(i, ledGreen, ledRed, ledBlue);
     }
-     strip.show();
+    strip.show();
+}
+
+void setLEDsOff(void){
+    strip.setBrightness(0);
+    for(int i = 0; i < NUMPIXELS; i++){
+        strip.setPixelColor(i, 0, 0, 0);
+    }
+    strip.show();
 }
 
 void setLEDCount(int hits){
-    if((hits <= 50)  && (hits != 0)){
-        ledGreen = 255;
+    if(hits > 0)){
+        ledGreen = LED_MAX_STR;
         ledBlue = 0;
         ledRed = 0;
         setLEDs(hits);
+    }
+    if(hits > NUMPIXELS){
+        ledGreen = 0;
+        ledBlue = LED_MAX_STR;
+        ledRed = 0;
+        setLEDs(hits - NUMPIXELS);
+    }
+    if(hits > NUMPIXELS * 2){
+        ledGreen = 0;
+        ledBlue = 0;
+        ledRed = LED_MAX_STR;
+        setLEDs(hits - (NUMPIXELS * 2));
     }
     return;
 }
@@ -62,8 +82,8 @@ void setup(){
 void loop(){
     hitDelay--;
   /*  Set color of LED-strip   */
+  setLEDsOff();
   setLEDCount(hits);
-
   /*   Vibration sensor detection    */
   float vibrationData =
     (float)analogRead(VIB_SENSOR_PIN) * 0.2;
@@ -76,7 +96,7 @@ void loop(){
 /*  LED-strip animation at startup   */
 void startUpLed(void){
   ledGreen = ledBlue = 0;
-  ledRed = LED_BRIGHTNESS_MAX;
+  ledRed = LED_MAX_STR;
   short start = 0;
   short end = NUMPIXELS;
   while(start <= end){
