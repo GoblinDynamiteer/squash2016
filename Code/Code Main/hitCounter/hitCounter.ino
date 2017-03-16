@@ -42,7 +42,7 @@
 const int VIB_SENSOR_PIN = A0;
 
 /*   Delay between hit triggers  */
-#define HIT_DELAY 90
+#define HIT_DELAY 120
 
 /*   "Game" works for 60 seconds  */
 #define PLAY_TIME 60000
@@ -132,7 +132,7 @@ void loop(){
     strip.show();
     timer = millis();
   }
-  /*   Game over, count pixels    */
+  /*   Game over, set score!   */
   if(millis() - startTime > PLAY_TIME){
     setScore();
     strip.show();
