@@ -55,7 +55,8 @@ Ingående delar:
 
 **Inspelningar:**  
 [Test av färdigt racket, spel-läge ](https://www.youtube.com/watch?v=IrT2sxNLXvo)<br>
-[Testning av vibrationssensor ](https://youtu.be/zGH6sVq6qng)
+[Test av färdigt racket, counter-läge](https://www.youtube.com/watch?v=nRJhmAD6vJA)
+[Testning av vibrationssensor](https://youtu.be/zGH6sVq6qng)
 
 ---
 
