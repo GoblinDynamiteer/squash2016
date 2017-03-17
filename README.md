@@ -1,15 +1,12 @@
-<h1>SQUASH SM 2017</h>
-<h2>Racket med LED-slinga</h>  
+<h1>SQUASH SM 2017</h1>
+<h2>Racket med LED-slinga</h2>  
 
 ---
 
 
 **Elevprojekt för Squash-SM i Linköping 2017**   
 *Mjukvaruutvecklare inbyggda system*  
-
 *Mölk Utbildning, Mjärdevi - Linköping*  
-
-
 
 ---
 
