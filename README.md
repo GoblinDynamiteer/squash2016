@@ -21,7 +21,7 @@ En ljussabel/lasersvärd (eng. Lightsaber) är ett närstridsvapen från det kä
 <h5>Projektmål:</h5>  
 
 *Grundmål:*
-- LED-slinga runt rackets ytterkant som ändrar itensitet vid bollträff.
+- LED-slinga runt rackets ytterkant som ändrar intensitet vid bollträff.
 - Uppspelning av ljud vid bollträff.
 - Uppspelning av konstant ljud vid påslagen lightsaber.
 - Inbyggd/gömd elektronik och batteridrivning
@@ -53,6 +53,12 @@ Ingående delar:
 - DotStar APA102 Digital LED Strip
 - 2x Batterier LiPo 18650
 - ON/OFF-knapp
+
+---
+
+**Inspelningar:**
+Test av färdigt racket, spel-läge
+![Slagtest](https://www.youtube.com/watch?v=IrT2sxNLXvo)
 
 
 ---
