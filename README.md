@@ -60,6 +60,8 @@ Ingående delar:
 Test av färdigt racket, spel-läge
 ![Slagtest](https://www.youtube.com/watch?v=IrT2sxNLXvo)
 
+Testning av vibrationssensor
+![VibSensor](https://youtu.be/zGH6sVq6qng)
 
 ---
 
