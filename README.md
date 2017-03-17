@@ -1,5 +1,5 @@
-#SQUASH SM 2017  
-#LIGHTSABER  
+<h1>SQUASH SM 2017</h>
+<h2>Racket med LED-slinga</h>  
 
 ---
 
@@ -56,17 +56,13 @@ Ingående delar:
 
 ---
 
-**Inspelningar:**
-Test av färdigt racket, spel-läge
-![Slagtest](https://www.youtube.com/watch?v=IrT2sxNLXvo)
-
-Testning av vibrationssensor
-![VibSensor](https://youtu.be/zGH6sVq6qng)
+**Inspelningar:**  
+[Test av färdigt racket, spel-läge ](https://www.youtube.com/watch?v=IrT2sxNLXvo)<br>
+[Testning av vibrationssensor ](https://youtu.be/zGH6sVq6qng)
 
 ---
 
-**Fotografier:**
-
+**Fotografier:**  
 Slagtest med vibrationssensor och LED som indikator   
 ![Slagtest](https://raw.githubusercontent.com/GoblinDynamiteer/squash2016/master/Documentation/Photoshop/vibration_test.png)
 
