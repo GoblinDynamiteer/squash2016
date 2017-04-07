@@ -53,6 +53,10 @@ Ingående delar:
 
 ---
 
+**Kod**  
+[hitCounter / Dutträknare](https://github.com/GoblinDynamiteer/squash2016/blob/master/Code/Code%20Main/hitCounter/hitCounter.ino)  
+[Färgbyte vid spel](https://github.com/GoblinDynamiteer/squash2016/blob/master/Code/Code%20Main/lightsaber/lightsaber.ino)  
+
 **Inspelningar Utveckling:**  
 [Test av färdigt racket, spel-läge ](https://www.youtube.com/watch?v=IrT2sxNLXvo)<br>
 [Test av färdigt racket, counter-läge](https://www.youtube.com/watch?v=nRJhmAD6vJA)  
