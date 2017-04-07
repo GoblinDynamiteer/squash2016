@@ -60,6 +60,7 @@ Ingående delar:
 **Inspelningar Utveckling:**  
 [Test av färdigt racket, spel-läge ](https://www.youtube.com/watch?v=IrT2sxNLXvo)<br>
 [Test av färdigt racket, counter-läge](https://www.youtube.com/watch?v=nRJhmAD6vJA)  
+[Test av counter-läge](https://youtu.be/jmg7DulsJ1o)  
 [Testning av vibrationssensor](https://youtu.be/zGH6sVq6qng)
 
 **Inspelningar Squash-SM 2017:**  
